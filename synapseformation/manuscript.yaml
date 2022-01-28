@@ -1,4 +1,4 @@
-- name: mPower2.0 Project
+- name: mPower 2.0 Project
   type: Project
   acl:
   - principal_id: 3394042 # Aryton Tediarjo
