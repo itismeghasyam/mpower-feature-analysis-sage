@@ -26,5 +26,9 @@ superusers:
 	Rscript feature_processing/superusers/get_baseline_activity.R || exit 1
 	Rscript analysis/pd_severity/get_superusers_predicted_prob.R || exit 1
 	
+passive_gait_analysis:
+	Rscript analysis/passive_gait_analysis/get_passive_records_distb_metrics.R
+	Rscript analysis/knit_analysis_to_synapse.R
+	
 documentation: 
 	Rscript wiki/knit_md.R || exit 1
