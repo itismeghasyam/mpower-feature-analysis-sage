@@ -24,11 +24,12 @@ To add an analysis into this repostiory and add it as part of the workflow, seve
 4. Include as part of the target in the Makefile
 
 ### Config.yml guide
-The workflow uses config.yml to control to I/O of the file, it is used to manage output reference such as:
+The workflow uses [config.yml](https://github.com/Sage-Bionetworks/mpower-feature-analysis/blob/master/config.yml) to control to I/O of the file, it is used to manage output reference such as:
 - output_filename
 - provenance
 - annotations
-Some of the feature extraction pipeline are indexed as a list to represent variety of filters/QC-steps that we did from our analysis. Thus, make sure that the config file is able to properly control the output of your workflow. 
+Some of the feature extraction pipeline are indexed as a list to represent variety of filters/QC-steps that we did from our analysis. Thus, make sure that the config file is able to properly control the output of your workflow. **The schema of the config.yml is still loosely based on what is convenient for the workflow, thus it can still be a subject of change in the future.**
+
 
 ### File Annotations Guide
 This analysis workflow uses Synapse Annotations and File View to control the I/O of the analysis (parentIds, fileIds etc). 
