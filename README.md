@@ -1,4 +1,4 @@
-# mPower Feature Analysis ETL
+# mPower Feature ETL & Analysis
 This Github Repository is used for running Dockerized MPower ETL Processes, it manages your python/R environment and streamlines worfklow from feature-extraction, aggregation, analysis, and prediction
 
 Maintainter: 
