@@ -108,6 +108,8 @@ get_consec_days <- function(data){
                 "total" = sum), na.rm = T)
 }
 
+#' Function to get duration of time
+#' between an active task and passive gait trigger
 get_duration_after_active <- function(data){
     data %>%
         dplyr::arrange(createdOn) %>%
@@ -130,6 +132,8 @@ get_duration_after_active <- function(data){
                 "since_last_active_total" = sum), na.rm = T)
 }
 
+#' Helper function to run metrics
+#' calculation
 get_passive_activity_metrics <- function(data) {
     consec_days <- get_consec_days(data)
     duration_since_active <- get_duration_after_active(data)
@@ -152,5 +156,6 @@ save_to_synapse(
     data = result,
     output_filename = OUTPUT_FILE,
     parent = PARENT_ID,
+    used = c(TAP_TBL, TREMOR_TBL, WALK_TBL, PASSIVE_TBL),
     name = "get passive gait contribution metrics",
     description = "get several passive gait metrics")
