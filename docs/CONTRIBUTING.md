@@ -19,8 +19,16 @@ git pull upstream develop
 ## Development Life Cycle
 To add an analysis into this repostiory and add it as part of the workflow, several steps are required
 1. Annotate each file accordingly
-2. Add query to `utils/fetch_file_id.R'
-3. Include as part of the target in the Makefile
+2. Add I/O controls to config.yml
+3. Add query to `utils/fetch_file_id.R'
+4. Include as part of the target in the Makefile
+
+### Config.yml guide
+The workflow uses config.yml to control to I/O of the file, it is used to manage output reference such as:
+- output_filename
+- provenance
+- annotations
+Some of the feature extraction pipeline are indexed as a list to represent variety of filters/QC-steps that we did from our analysis. Thus, make sure that the config file is able to properly control the output of your workflow. 
 
 ### File Annotations Guide
 This analysis workflow uses Synapse Annotations and File View to control the I/O of the analysis (parentIds, fileIds etc). 
