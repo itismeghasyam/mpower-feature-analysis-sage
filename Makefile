@@ -24,7 +24,7 @@ aggregate_users:
 superusers:
 	Rscript feature_processing/superusers/get_baseline_demo.R || exit 1
 	Rscript feature_processing/superusers/get_baseline_activity.R || exit 1
-	Rscript feature_processing/analysis/pd_severity/get_superusers_predicted_prob.R || exit 1
+	Rscript analysis/pd_severity/get_superusers_predicted_prob.R || exit 1
 	
 documentation: 
 	Rscript wiki/knit_md.R || exit 1
