@@ -18,6 +18,7 @@ The current workflow utilizes [Synapse Vile Fiew](https://python-docs.synapse.or
 | tapping-v2 | | 20 seconds cutoff
 | walk30secs-v2 | | 5-seconds window </br>  7.5-seconds window
 | tremor-v2 | | |
+| passive-gait | passive-gait triggers | |
 
 | processingType |
 |:-------------- |
