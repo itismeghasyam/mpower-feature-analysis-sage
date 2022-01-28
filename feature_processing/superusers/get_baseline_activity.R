@@ -1,18 +1,68 @@
+###########################################################
+#' Script to get baseline activity
+#' for super-PD across tapping, tremor, walking
+#' 
+#' @author: aryton.tediarjo@sagebase.org
+############################################################
 library(synapser)
 library(data.table)
 library(synapser)
 library(tidyverse)
 library(githubr)
-library(optparse)
 source("utils/curation_utils.R")
 source("utils/helper_utils.R")
-
+source("utils/fetch_id_utils.R")
 synapser::synLogin()
-CONFIG_PATH <- "templates/config.yaml"
 
-ref <- config::get(file = CONFIG_PATH)
-ref_list <- list(ref$tapping, ref$tremor, ref$walk)
+#' Global Variables
+N_CORES <- config::get("cpu")$n_cores
+SYN_ID_REF <- list(
+    table = config::get("table"),
+    feature_extraction = get_feature_extraction_ids())
+SUPERUSERS_OUTPUT_REF <- config::get("superusers")
+UDALL_PARENT_ID <- "syn26142249"
+SCRIPT_PATH <- file.path(
+    "feature_processing", 
+    "superusers",
+    "get_baseline_activity.R")
+GIT_URL = get_github_url(
+    git_token_path = config::get("git")$token_path,
+    git_repo = config::get("git")$repo_endpoint,
+    script_path = SCRIPT_PATH)
 
+# Feature to table mapping
+REF_LIST <- list(
+    demo = list(
+        table = SYN_ID_REF$table$demo,
+        feature = SYN_ID_REF$feature_extraction$demo,
+        filename = SUPERUSERS_OUTPUT_REF$demo[[1]]$output_filename,
+        provenance = SUPERUSERS_OUTPUT_REF$demo[[1]]$provenance,
+        annotations = SUPERUSERS_OUTPUT_REF$[[1]]$annotations
+    ),
+    tap = list(
+        table = SYN_ID_REF$table$tap,
+        feature = SYN_ID_REF$feature_extraction$tap_20_secs,
+        filename = SUPERUSERS_OUTPUT_REF$tap[[1]]$output_filename,
+        provenance = SUPERUSERS_OUTPUT_REF$tap[[1]]$provenance,
+        annotations = SUPERUSERS_OUTPUT_REF$tap[[1]]$annotations),
+    tremor = list(
+        table = SYN_ID_REF$table$tremor,
+        feature = SYN_ID_REF$feature_extraction$tremor,
+        filename = SUPERUSERS_OUTPUT_REF$tremor[[1]]$output_filename,
+        provenance = SUPERUSERS_OUTPUT_REF$tremor[[1]]$provenance,
+        annotations = SUPERUSERS_OUTPUT_REF$tremor[[1]]$annotations),
+    walk = list(
+        table = SYN_ID_REF$table$walk,
+        feature = SYN_ID_REF$feature_extraction$walk_7.5,
+        filename = SUPERUSERS_OUTPUT_REF$walk[[1]]$output_filename,
+        provenance = SUPERUSERS_OUTPUT_REF$walk[[1]]$provenance,
+        annotations = SUPERUSERS_OUTPUT_REF$walk[[1]]$annotations))
+
+#' Function to filter enrollment
+#' used to filter activity (baseline)
+#' 
+#' @param data
+#' @return filtered data
 filter_enrollment <- function(data){
     data %>% 
         dplyr::arrange(createdOn) %>% 
@@ -23,6 +73,9 @@ filter_enrollment <- function(data){
         dplyr::select(-days_since_start)
 }
 
+#' Helper function to get baseline data 
+#' @table synapse table dataframe
+#' @return table with filtered activities
 get_baseline <- function(table){
     # get & clean metadata from synapse table
     table %>% 
@@ -44,23 +97,14 @@ get_baseline <- function(table){
 
 main <- function(){
     # query param
-    query_param = "`substudyMemberships` LIKE '%superusers%'"
+    query_param <- "`substudyMemberships` LIKE '%superusers%'"
     
-    # Global Variables
-    git_url <- get_github_url(
-        git_token_path = ref$git_token_path,
-        git_repo = ref$repo_endpoint,
-        script_path = "feature_processing/superusers/get_baseline_activity.R")
-    
-    purrr::map(ref_list, function(activity_ref){
-        feature_id <- synapser::synFindEntityId(
-            activity_ref$feature_extraction$output_filename,
-            activity_ref$feature_extraction$parent_id)
-        table_id <- activity_ref$table_id
-        output_parent_id <- activity_ref$baseline_superusers$parent_id
-        output_filename <- activity_ref$baseline_superusers$output_filename
-        provenance_name <- "get superusers data"
-        provenance_description <- "filter superusers baseline data"
+    purrr::map(REF_LIST, function(activity_ref){
+        table_id <- activity_ref$table
+        feature_id <- activity_ref$feature
+        output_filename <- activity_ref$filename
+        provenance_name <- activity_ref$provenance$name
+        provenance_description <- activity_ref$provenance$description
         
         # get metadata to filter sensor
         metadata <- get_table(
@@ -92,16 +136,16 @@ main <- function(){
                 tidyr::drop_na(window)
         }
         
-        
         # save to synapse
         save_to_synapse(
             data = data,
             output_filename = output_filename, 
-            parent = output_parent_id,
+            parent = UDALL_PARENT_ID,
             name = provenance_name,
             description = provenance_description,
+            annotations = activity_ref$annotations,
             used = c(table_id, feature_id),
-            executed = git_url)
+            executed = GIT_URL)
     })
 }
 

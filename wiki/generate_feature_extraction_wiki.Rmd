@@ -2,8 +2,7 @@
 
 This wiki page is used to describe the features extracted for all mpower actvities
 
-* Wiki Info
-* Feature Documentation
+${toc}
 
 ```{r, include = FALSE}
 library(synapser)
@@ -57,20 +56,27 @@ knitr::kable(data, "pipe")
 ```
 
 
-### Documentation:
+### Pipeline Tracking
 ```{r, echo=FALSE}
 data <- synapser::synGetChildren(
     FOLDER_ID)$asList() %>%
     purrr::map_dfr(function(x){
-        id <- x$id
-        name <- x$name
-        provenance <- synGetProvenance(id)
-        description <- provenance$get("description")
-        tibble::tibble(
-            "id" = id,
-            "file_name" = name,
-            "description" = description)
-    })
+        tryCatch({
+            id <- x$id
+            name <- x$name
+            provenance <- synGetProvenance(id)
+            description <- provenance$get("description")
+            tibble::tibble(
+                "id" = id,
+                "file_name" = name,
+                "description" = description)  
+        }, error = function(e){
+            tibble::tibble(id = NA_character_,
+                           file_name = NA_character_,
+                           description = NA_character_)
+        })
+    }) %>% 
+    tidyr::drop_na()
 
 knitr::kable(data, "pipe")
 ```

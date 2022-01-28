@@ -164,17 +164,6 @@ v2:
               provenance:
                 name: "aggregate walking (5-secs window) features"
                 description: "filter walk_motion.json, separate rotation & walk segments, aggregate users"
-            - output_filename: "user_agg_pdkit_rotation_7secs_passive_walking_features_v2.tsv"
-              annotations:
-                pipelineStep: "feature processing"
-                analysisType: "passive-gait"
-                task: "walking"
-                tool: "pdkit-rotation"
-                processingType: "aggregation"
-                filter: "7.5-seconds window"
-              provenance:
-                name: "aggregate passive walking (7-secs window) features"
-                description: "filter walk_motion.json, separate rotation & walk segments, aggregate users"
         tremor:
             - output_filename: "user_agg_mhealthtools_tremor_features_v2.tsv"
               annotations:
@@ -186,4 +175,56 @@ v2:
               provenance:
                 name: "reduce and aggregate tremor features"
                 description: "reduce features based on genetic algorithm, aggregate user-level"
-    super_pd: 
+        passive:
+            - output_filename: "user_agg_pdkit_rotation_7secs_passive_walking_features_v2.tsv"
+              annotations:
+                pipelineStep: "feature processing"
+                analysisType: "passive-gait"
+                task: "walking"
+                tool: "pdkit-rotation"
+                processingType: "aggregation"
+                filter: "7.5-seconds window"
+              provenance:
+                name: "aggregate passive walking (7-secs window) features"
+                description: "filter walk_motion.json, separate rotation & walk segments, aggregate users"
+    superusers:
+        demo:
+            - output_filename: "baseline_superusers_demographics.tsv"
+              annotations:
+                pipelineStep: "feature processing"
+                analysisType: "demographics"
+              provenance:
+                name: "filter superusers"
+                description: "filter superusers, get baseline activity"
+        tap:
+            - output_filename: "baseline_superusers_tapping_features.tsv"
+              annotations:
+                pipelineStep: "feature processing"
+                analysisType: "tapping-v2"
+                task: "tapping"
+                tool: "mhealthtools"
+              provenance:
+                name: "filter superusers"
+                description: "filter superusers, get baseline activity"
+        walk:
+            - output_filename: "baseline_superusers_walk30secs_features.tsv"
+              annotations:
+                pipelineStep: "feature processing"
+                analysisType: "walk30secs-v2"
+                task: "walking"
+                tool: "pdkit-rotation"
+                filter: "7.5-seconds window"
+              provenance:
+                name: "filter superusers"
+                description: "filter superusers, get baseline activity"
+
+        tremor:
+            - output_filename: "baseline_superusers_tremor_features.tsv"
+              annotations:
+                pipelineStep: "feature processing"
+                analysisType: "tremor-v2"
+                task: "tremor"
+                tool: "mhealthtools"
+              provenance:
+                name: "filter superusers"
+                description: "filter superusers, get baseline activity"

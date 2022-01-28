@@ -7,18 +7,12 @@ source("utils/curation_utils.R")
 source("utils/helper_utils.R")
 synLogin()
 
-# read config
-CONFIG_PATH <- "templates/config.yaml"
-ref <- config::get(file = CONFIG_PATH)
 
 # load matched HC
 load(synGet("syn15355694")$path)
 
 # demographics of superPD users
-demo_id <- synapser::synFindEntityId(
-    name = ref$demo$baseline_superusers$output_filename,
-    parent = ref$demo$baseline_superusers$parent_id
-)
+demo_id <- "syn26840734"
 
 # train-test mapping
 train_test_mapping <- list(
@@ -28,13 +22,32 @@ train_test_mapping <- list(
                    test = "syn26619783")
 )
 
+SCRIPT_PATH <- file.path(
+    "analysis", 
+    "pd_severity",
+    "get_superusers_predicted_prob.R")
+
 # Global Variables
-git_url <- get_github_url(
-    git_token_path = ref$git_token_path,
-    git_repo = ref$repo_endpoint,
-    script_path = "analysis/pd_severity/get_predicted_prob.R")
+GIT_URL = get_github_url(
+    git_token_path = config::get("git")$token_path,
+    git_repo = config::get("git")$repo_endpoint,
+    script_path = SCRIPT_PATH)
 
-
+# output reference
+OUTPUT_REF <- list(
+    filename = "baseline_superusers_PD_conf_score.tsv",
+    parent = "syn26142249",
+    name = "Random Forest Model",
+    description = "Random Forest based on tapping and walking",
+    annotations = list(
+        analysisType = "PD severity",
+        pipelineStep = "prediction"
+    ),
+    executed = GIT_URL,
+    used = train_test_mapping %>% 
+        unlist(recursive = T) %>% 
+        unname()
+)
 
 
 GetRfPrediction <- function(dat.train, 
@@ -164,11 +177,13 @@ pd.severity <- pred_list %>%
 # save to synapse
 save_to_synapse(
     data = pd.severity,
-    output_filename = ref$pd_severity$baseline_superusers$output_filename, 
-    parent = ref$pd_severity$baseline_superusers$parent_id,
-    name = ref$pd_severity$baseline_superusers$provenance$name,
-    description = ref$pd_severity$baseline_superusers$provenance$description,
-    used = (train_test_mapping %>% unlist() %>% unname()))
+    output_filename = OUTPUT_REF$filename, 
+    parent = OUTPUT_REF$parent,
+    annotations = OUTPUT_REF$annotations,
+    name = OUTPUT_REF$name,
+    description = OUTPUT_REF$description,
+    executed = OUTPUT_REF$git_url,
+    used = OUTPUT_REF$used)
 
 
 

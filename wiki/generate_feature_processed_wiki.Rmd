@@ -2,8 +2,7 @@
 
 This wiki page is used to describe the extracted features that have gone through some processing (cleaning, feature reducton or aggregation) for all mpower actvities
 
-* Wiki Info
-* Feature Documentation
+${toc}
 
 ```{r, include = FALSE}
 library(synapser)
@@ -91,7 +90,7 @@ knitr::kable(data, "pipe")
 ```
 
 
-### Documentation:
+### Pipeline Tracking
 ```{r, echo=FALSE}
 data <- synapser::synGetChildren(
     FOLDER_ID)$asList() %>%
