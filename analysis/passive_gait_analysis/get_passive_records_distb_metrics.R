@@ -14,6 +14,7 @@ library(data.table)
 library(ggplot2)
 library(patchwork)
 library(githubr)
+source("utils/helper_utils.R")
 
 synLogin()
 
@@ -147,7 +148,9 @@ result <- passive %>%
     tidyr::unnest(metrics) %>% 
     dplyr::left_join(OS_summary, by = c("healthCode"))
 
-result %>% write.table(., file =OUTPUT_FILE, sep = "\t", row.names=F, quote=F)
-file <- synapser::File(OUTPUT_FILE, parent = PARENT_ID)
-synStore(file, executed = GIT_URL, used = c(PASSIVE_TBL, WALK_TBL, TAP_TBL, TREMOR_TBL))
-unlink(OUTPUT_FILE)
+save_to_synapse(
+    data = result,
+    output_filename = OUTPUT_FILE,
+    parent = PARENT_ID,
+    name = "get passive gait contribution metrics",
+    description = "get several passive gait metrics")

@@ -1,0 +1,133 @@
+---
+title: "Analysis on how users are contributing to Passive Data"
+output: html_notebook
+---
+
+## Load Required Library
+```{r message = FALSE, warning=FALSE, echo=FALSE}
+library(synapser)
+library(tidyverse)
+library(data.table)
+library(ggplot2)
+library(patchwork)
+library(githubr)
+synLogin()
+```
+
+```{r}
+METRICS_SYN_ID <- "syn24682745"
+```
+
+```{r echo = FALSE}
+passive_gait_metrics <- fread(synGet(METRICS_SYN_ID)$path, sep = "\t") %>% 
+    tibble::as_tibble(.)
+```
+
+## Average Consecutive Days
+```{r echo = F, warning = F, fig.width=12}
+plot1 <- passive_gait_metrics %>% 
+    ggplot(aes(x = cons_day_mean)) + 
+    geom_histogram(aes(y=..density..), 
+                   binwidth=1,
+                   colour="black", 
+                   fill="lightgrey",
+                   alpha = 0.5) +
+    geom_density(alpha = 0.2, fill = "skyblue2") + 
+    xlim(-5,50) +
+    labs(x = "Consecutive Days",
+         y = "",
+         title = "Average Consecutive Days Per User",
+         subtitle = "Passive Gait Triggers") +
+    theme_minimal()
+plot1b <- passive_gait_metrics %>% 
+    ggplot(aes(x = OS, 
+               y = cons_day_mean)) + 
+    geom_boxplot(width = 0.5) + 
+    geom_hline(yintercept = 0, 
+               linetype = "dotted",
+               color = "red") +
+    labs(y = "Consecutive Days") + 
+    theme_minimal()
+plot1 + plot1b
+```
+
+## Max Consecutive Days
+```{r echo = FALSE, warning = F, fig.width=12}
+plot2 <- passive_gait_metrics %>% 
+    ggplot(aes(x = cons_day_max)) + 
+    geom_histogram(aes(y=..density..), 
+                   binwidth=1,
+                   colour="black", 
+                   fill="lightgrey",
+                   alpha = 0.5) +
+    geom_density(alpha = 0.2, fill = "skyblue2") + 
+    xlim(-5,70) +
+    labs(x = "Consecutive Days",
+         title = "Maximum Consecutive Days Per User",
+         subtitle = "Passive Gait Triggers") +
+    theme_minimal()
+plot2b <- passive_gait_metrics %>% 
+    ggplot(aes(x = OS, 
+               y = cons_day_max)) + 
+    geom_boxplot(width = 0.5) + 
+    geom_hline(yintercept = 0, 
+               linetype = "dotted",
+               color = "red") +
+    labs(y = "Consecutive Days") + 
+    theme_minimal()
+plot2 + plot2b
+```
+
+## Mean Days Since Active
+```{r echo = F, warning= F, fig.width=12}
+#' Mean #days after active
+plot4 <- passive_gait_metrics %>% 
+    ggplot(aes(x = as.numeric(since_last_active_mean/86400))) + 
+    geom_histogram(aes(y=..density..), 
+                   binwidth=1,
+                   colour="black", 
+                   fill="lightgrey",
+                   alpha = 0.5) +
+    geom_density(alpha = 0.3, fill = "skyblue2") + 
+    xlim(-5, 50) +
+    labs(x = "Days",
+         title = "Mean #Days Since Last Active") +
+    theme_minimal()
+plot4b <- passive_gait_metrics %>% 
+    ggplot(
+        aes(x = OS, y = as.numeric(since_last_active_mean)/86400)) + 
+    geom_boxplot(width = 0.5) + 
+    geom_hline(yintercept = 0, 
+               linetype = "dotted",
+               color = "red") +
+    labs(y = "Days") + 
+    theme_minimal()
+plot4 + plot4b
+```
+
+## Max #days after active
+```{r echo=F,warning = F, fig.width=12}
+plot3 <- passive_gait_metrics %>% 
+    ggplot(aes(x = as.numeric(since_last_active_max/86400))) + 
+    geom_histogram(aes(y=..density..), 
+                   binwidth=1,
+                   colour="black", 
+                   fill="lightgrey",
+                   alpha = 0.5) +
+    geom_density(alpha = 0.3, fill = "skyblue2") + 
+    xlim(-5, 50) +
+    labs(x = "Days",
+         title = "Max #Days Since Last Active") +
+    theme_minimal()
+    
+plot3b <- passive_gait_metrics %>% 
+    ggplot(
+        aes(x = OS, y = as.numeric(since_last_active_max)/86400)) + 
+    geom_boxplot(width = 0.5) + 
+    geom_hline(yintercept = 0, 
+               linetype = "dotted",
+               color = "red") +
+    labs(y = "Days") + 
+    theme_minimal()
+plot3 + plot3b
+```
