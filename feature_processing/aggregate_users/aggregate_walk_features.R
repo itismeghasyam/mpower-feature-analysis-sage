@@ -24,7 +24,7 @@ PARENT_ID <- SYN_ID_REF$feature_extraction$parent_id
 SCRIPT_PATH <- file.path(
     "feature_processing", 
     "aggregate_users",
-    "aggregate_walk30secs_features.R")
+    "aggregate_walk_features.R")
 GIT_URL = get_github_url(
     git_token_path = config::get("git")$token_path,
     git_repo = config::get("git")$repo_endpoint,
