@@ -32,13 +32,6 @@ GIT_URL = get_github_url(
 
 # Feature to table mapping
 REF_LIST <- list(
-    demo = list(
-        table = SYN_ID_REF$table$demo,
-        feature = SYN_ID_REF$feature_extraction$demo,
-        filename = SUPERUSERS_OUTPUT_REF$demo[[1]]$output_filename,
-        provenance = SUPERUSERS_OUTPUT_REF$demo[[1]]$provenance,
-        annotations = SUPERUSERS_OUTPUT_REF$[[1]]$annotations
-    ),
     tap = list(
         table = SYN_ID_REF$table$tap,
         feature = SYN_ID_REF$feature_extraction$tap_20_secs,
