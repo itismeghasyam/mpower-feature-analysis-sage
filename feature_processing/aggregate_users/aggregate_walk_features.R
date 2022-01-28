@@ -106,9 +106,11 @@ main <- function(){
                 .$id
         }
         # merge feature with cleaned metadata
-        data <- synGet(feature_id)$path %>% 
+        data <- synGet(feature_id)$path %>%
             fread() %>%
-            dplyr::filter(!is.na(window)) %>%
+            dplyr::filter(
+                !is.na(window) &
+                fileColumnName == "walk_motion.json") %>%
             dplyr::rowwise() %>%
             dplyr::ungroup() %>%
             dplyr::inner_join(

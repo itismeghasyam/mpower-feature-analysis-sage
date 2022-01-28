@@ -75,6 +75,12 @@ get_feature_extraction_ids <- function(syn = NULL){
             pipelineStep == "feature extraction",
             task == "walking",
             analysisType == "walk30secs-v2") %>% .$id
+    ref_list$passive <- data %>%
+        dplyr::filter(
+            filter == "7.5-seconds window",
+            pipelineStep == "feature extraction",
+            task == "passive",
+            analysisType == "passive-gait") %>% .$id
     return(ref_list)
 }
 

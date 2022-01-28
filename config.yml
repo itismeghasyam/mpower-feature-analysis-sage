@@ -152,7 +152,7 @@ v2:
                 filter: "7.5-seconds window"
               provenance:
                 name: "aggregate walking (7-secs window) features"
-                description: "aggregate user-level for walking (7-secs window)"
+                description: "filter walk_motion.json, separate rotation & walk segments, aggregate users"
             - output_filename: "user_agg_pdkit_rotation_5secs_window_walking_features_v2.tsv"
               annotations:
                 pipelineStep: "feature processing"
@@ -163,7 +163,18 @@ v2:
                 filter: "5-seconds window"
               provenance:
                 name: "aggregate walking (5-secs window) features"
-                description: "aggregate user-level for walking (5-secs window)"
+                description: "filter walk_motion.json, separate rotation & walk segments, aggregate users"
+            - output_filename: "user_agg_pdkit_rotation_7secs_passive_walking_features_v2.tsv"
+              annotations:
+                pipelineStep: "feature processing"
+                analysisType: "passive-gait"
+                task: "walking"
+                tool: "pdkit-rotation"
+                processingType: "aggregation"
+                filter: "7.5-seconds window"
+              provenance:
+                name: "aggregate passive walking (7-secs window) features"
+                description: "filter walk_motion.json, separate rotation & walk segments, aggregate users"
         tremor:
             - output_filename: "user_agg_mhealthtools_tremor_features_v2.tsv"
               annotations:
