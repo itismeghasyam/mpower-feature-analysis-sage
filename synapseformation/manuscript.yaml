@@ -11,6 +11,16 @@
     - CHANGE_SETTINGS
     - MODERATE
     - CHANGE_PERMISSIONS
+  - principal_id: 3345548 # sage mhealth analysis team
+    access_type:
+    - READ
+    - DOWNLOAD
+    - UPDATE
+    - CREATE
+    - DELETE
+    - CHANGE_SETTINGS
+    - MODERATE
+    - CHANGE_PERMISSIONS
   children:
   - name: Features - Extracted
     type: Folder
