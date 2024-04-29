@@ -1,13 +1,12 @@
 # build base image
 FROM rocker/tidyverse:4.0.0
 
-RUN apt-get update -y\
-    && apt-get install -y python3-dev\
-    && apt-get install -y python3-venv\
-    && apt-get install -y git
+RUN apt-get update -y && \
+    apt-get upgrade -y && \
+    apt-get install -y python3-dev python3-venv python3-pip git
     
 ## run git cloning
-RUN git clone https://github.com/Sage-Bionetworks/mpower-feature-analysis /root/mpower-feature-analysis
+RUN git clone https://github.com/pranavanba/mpower-feature-analysis-sage /root/mpower-feature-analysis
 
 ## change work dir
 WORKDIR /root/mpower-feature-analysis
@@ -19,8 +18,8 @@ RUN git pull
 RUN python3 -m venv ~/env\
     && . ~/env/bin/activate\
     && python3 -m pip install -r requirements.txt\
-    && python3 -m pip install git+https://github.com/arytontediarjo/PDKitRotationFeatures.git\
-    && python3 -m pip install numpy==1.21
+    && python3 -m pip install git+https://github.com/Sage-Bionetworks/PDKitRotationFeatures.git\
+    && python3 -m pip install numpy==1.20
     
 ## get packages from lockfile
 ENV RENV_VERSION 0.13.2
