@@ -7,7 +7,7 @@ authenticate: # authenticate to create .synapseConfig
 	Rscript utils/authenticate.R ${PARAMS}
 	
 project: # make project using synapseformation
-	. /root/env/bin/activate && python3 synapseformation/create_project.py
+	. /home/env/bin/activate && python3 synapseformation/create_project.py
 
 features: # query features from mPower 2.0 project
 	Rscript feature_extraction/extract_demographics.R || exit 1
