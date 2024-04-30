@@ -32,6 +32,13 @@
       "Repository": "SAGE",
       "Hash": "5db4c1bd16b45ec79a888938a0f3ce66"
     },
+    "caret": {
+      "Package": "caret",
+      "Version": "6.0-90",
+      "Source": "Repository",
+      "Repository": "CRAN",
+      "Hash": "42469c788063931bd460be0c4d6044eb"
+    },
     "data.table": {
       "Package": "data.table",
       "Version": "1.14.0",
