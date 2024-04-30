@@ -4,7 +4,7 @@
     "Repositories": [
       {
         "Name": "CRAN",
-        "URL": "https://packagemanager.posit.co/cran/2022-02-01"
+        "URL": "https://packagemanager.posit.co/cran/2022-01-01"
       },
       {
         "Name": "SAGE",
