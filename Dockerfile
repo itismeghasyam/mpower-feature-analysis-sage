@@ -11,10 +11,10 @@ RUN python3 -m pip install --upgrade pip && \
     python3 -m pip install virtualenv wheel
 
 ## run git cloning
-RUN git clone https://github.com/pranavanba/mpower-feature-analysis-sage /home/mpower-feature-analysis
+RUN git clone https://github.com/pranavanba/mpower-feature-analysis-sage mpower-feature-analysis
 
 ## change work dir
-WORKDIR /home/mpower-feature-analysis
+WORKDIR mpower-feature-analysis
 
 ## Pull any updates
 RUN git pull
