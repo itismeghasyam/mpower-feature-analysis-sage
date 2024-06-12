@@ -32,11 +32,9 @@ def get_project_id(syn, project_name):
 
 def create_project(syn, template_path, project_name):
 
-    logger.info(
-        f'Creating Synapse project {project_name}, ' + f'with template_path {template_path}')
+    logger.info(f'Creating Synapse project {project_name}, ' + f'with template_path {template_path}')
     try:
-        response = synapseformation_client.create_synapse_resources(
-            template_path)
+        response = synapseformation_client.create_synapse_resources(syn, template_path)
         logger.debug(f'Project response: {response}')
         if response is not None:
             return response.get('id')
