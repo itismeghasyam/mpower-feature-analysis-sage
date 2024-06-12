@@ -1,4 +1,4 @@
-- name: mPower 2.0 Project - Dev
+- name: mPower2.0 Project - Dev
   type: Project
   acl:
   - principal_id: 3454207 # Pranav Anbarasu
