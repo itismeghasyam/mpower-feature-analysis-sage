@@ -140,8 +140,8 @@ main <- function(){
             annotations = OUTPUT_REF$annotations,
             used = SYN_ID_REF$table,
             executed = OUTPUT_REF$git_url,
-            name = OUTPUT_REF$provenance$name,
-            description = OUTPUT_REF$provenance$description)
+            activityName = OUTPUT_REF$provenance$name,
+            activityDescription = OUTPUT_REF$provenance$description)
 }
 
 main()
