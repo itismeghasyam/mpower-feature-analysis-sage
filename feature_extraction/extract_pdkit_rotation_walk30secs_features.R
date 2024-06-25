@@ -10,7 +10,7 @@ library(githubr)
 library(jsonlite)
 library(mhealthtools)
 library(reticulate)
-library(plyr)
+# library(plyr)
 library(doMC)
 source("utils/curation_utils.R")
 source("utils/helper_utils.R")
@@ -203,8 +203,8 @@ main <- function(){
                 parent_id = PARENT_ID,
                 annotations = ref$annotations,
                 used = WALK_TABLE,
-                name = ref$provenance$name,
-                description = ref$provenance$description,
+                activityName = ref$provenance$name,
+                activityDescription = ref$provenance$description,
                 executed = GIT_URL)
     })
 }

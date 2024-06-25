@@ -5,6 +5,7 @@
 #' 
 #' @author: aryton.tediarjo@sagebase.org
 ############################################################
+library(synapser)
 library(tidyverse)
 library(githubr)
 library(data.table)
@@ -13,6 +14,8 @@ library(future)
 source("utils/helper_utils.R")
 source("utils/curation_utils.R")
 source("utils/fetch_id_utils.R")
+
+synapser::synLogin()
 
 #' login to synapse using reticulate
 synapseclient <- reticulate::import("synapseclient")
@@ -164,7 +167,7 @@ get_metadata <- function(tbl_id, syn){
 main <- function(){
     refs <- config::get("feature_processing")$tremor
     annotations_map <- SYN_ID_REF$feature_extraction %>% 
-        reticulated_get_annotation_mapper(syn = syn)
+        get_annotation_mapper()
     metadata <- get_metadata(SYN_ID_REF$table, syn = syn)
     demo <- syn$get(SYN_ID_REF$feature_extraction$demo)$path %>%
         fread(.) %>%
@@ -209,8 +212,8 @@ main <- function(){
                 output_filename = ref$output_filename, 
                 parent = SYN_ID_REF$feature_processed$parent_id,
                 annotations = ref$annotations,
-                name = ref$provenance$name,
-                description = ref$provenance$description,
+                activityName = ref$provenance$name,
+                activityDescription = ref$provenance$description,
                 used = c(SYN_ID_REF$table, feature_id, BEST_FEATURES_ID),
                 executed = GIT_URL
             )

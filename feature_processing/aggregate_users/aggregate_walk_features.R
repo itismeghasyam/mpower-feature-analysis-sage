@@ -149,8 +149,8 @@ main <- function(){
             output_filename = ref$output_filename, 
             parent = SYN_ID_REF$feature_processed$parent_id,
             annotations = ref$annotations,
-            name = ref$provenance$name,
-            description = ref$provenance$description,
+            activityName = ref$provenance$name,
+            activityDescription = ref$provenance$description,
             used = c(SYN_ID_REF$table, feature_id),
             executed = GIT_URL)
     })

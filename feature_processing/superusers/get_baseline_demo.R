@@ -61,8 +61,8 @@ save_to_synapse(
     output_filename = REF_LIST$demo$filename,
     parent = UDALL_PARENT_ID,
     annotations = REF_LIST$demo$annotations,
-    name = REF_LIST$demo$provenance$name,
-    description = REF_LIST$demo$provenance$description,
+    activityName = REF_LIST$demo$provenance$name,
+    activityDescription = REF_LIST$demo$provenance$description,
     used = c(REF_LIST$demo$feature, 
              REF_LIST$demo$table),
     executed = GIT_URL)

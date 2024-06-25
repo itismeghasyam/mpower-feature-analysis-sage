@@ -80,8 +80,8 @@ reticulated_save_to_synapse <- function(syn,
     output_filename, 
     parent = parent_id,
     annotations = annotations)
-  activity <- synapseclient$Activity(...)
-  store_to_synapse <- syn$store(file, activity = activity)
+  # activity <- synapseclient$Activity(...)
+  store_to_synapse <- syn$store(file, ...)
   unlink(output_filename)
 }
 
@@ -180,17 +180,17 @@ save_to_synapse <- function(data,
 #' @return tibble of each synapseID and key annotationss
 get_annotation_mapper <- function(refs){
   refs %>% 
-    purrr::list_modify("parent_id" = NULL) %>% 
+    # purrr::list_modify("parent_id" = NULL) %>% 
     purrr::map_dfr(function(x){
       entity <- synGet(x)
       id <- entity$properties$id
       annotations <- synGetAnnotations(id) %>% 
         unlist(recursive = F)
-      analysisType = annotations$analysisType
-      filter = ifelse(!is.null(annotations$filter), 
-                      annotations$filter, NA_character_)
-      tool = ifelse(!is.null(annotations$tool), 
-                    annotations$tool,NA_character_)
+      analysisType = annotations["analysisType"]
+      filter = ifelse(!is.null(annotations["filter"]), 
+                      annotations["filter"], NA_character_)
+      tool = ifelse(!is.null(annotations["tool"]), 
+                    annotations["tool"],NA_character_)
       tibble::tibble(
         id = id,
         analysisType = analysisType,
@@ -205,7 +205,7 @@ get_annotation_mapper <- function(refs){
 #' @return tibble of each synapseID and key annotationss
 reticulated_get_annotation_mapper <- function(refs, syn){
   refs %>% 
-    purrr::list_modify("parent_id" = NULL) %>% 
+    purrr::list_modify("parent_id" = NULL) %>%
     purrr::map_dfr(function(x){
       entity <- syn$get(x)
       id <- entity$properties$id
