@@ -118,7 +118,7 @@ get_duration_after_active <- function(data){
         dplyr::mutate(active_to_passive = case_when(
             (type == "passive" & 
                  type_lag == "active") ~ createdOn - date_lag,
-            TRUE ~ NaN)) %>%
+            TRUE ~ NA)) %>%
         dplyr::filter(type == "passive", type_lag == "active") %>%
         dplyr::summarise_at(
             .vars = c("active_to_passive"), 
@@ -157,5 +157,5 @@ save_to_synapse(
     output_filename = OUTPUT_FILE,
     parent = PARENT_ID,
     used = c(TAP_TBL, TREMOR_TBL, WALK_TBL, PASSIVE_TBL),
-    name = "get passive gait contribution metrics",
-    description = "get several passive gait metrics")
+    activityName = "get passive gait contribution metrics",
+    activityDescription = "get several passive gait metrics")
