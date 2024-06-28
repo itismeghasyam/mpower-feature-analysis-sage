@@ -7,7 +7,7 @@ authenticate: # authenticate to create .synapseConfig
 	Rscript utils/authenticate.R ${PARAMS}
 	
 project: # make project using synapseformation
-	. /home/env/bin/activate && python3 synapseformation/create_project.py
+	. ~/env/bin/activate && python3 synapseformation/create_project.py
 
 features: # query features from mPower 2.0 project
 	Rscript feature_extraction/extract_demographics.R || exit 1
@@ -18,12 +18,13 @@ features: # query features from mPower 2.0 project
 	
 aggregate_users: # aggregate users
 	Rscript feature_processing/aggregate_users/aggregate_tapping_features.R || exit 1
-	Rscript feature_processing/aggregate_users/aggregate_walk30secs_features.R || exit 1
-	Rscript feature_processing/aggregate_users/aggregate_tremor_features.R || exit 1
+	Rscript feature_processing/aggregate_users/aggregate_walk_features.R || exit 1 #output depends on extract_pdkit_... feature extraction steps
+	Rscript feature_processing/aggregate_users/aggregate_tremor_features.R || exit 1 #reticulated_get_annotation_mapper() changed to get_annotation_mapper()
+	# what about feature_processing/aggregate_users/aggregate_passive_features?
 	
 superusers: # get superusers
 	Rscript feature_processing/superusers/get_baseline_demo.R || exit 1
-	Rscript feature_processing/superusers/get_baseline_activity.R || exit 1
+	Rscript feature_processing/superusers/get_baseline_activity.R || exit 1 # "merge feature with cleaned metadata" step resulting in 0 inner join-ed records
 	Rscript analysis/pd_severity/get_superusers_predicted_prob.R || exit 1
 	
 passive_gait_analysis: # do passive gait analysis
