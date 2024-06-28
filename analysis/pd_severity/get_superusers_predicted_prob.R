@@ -180,8 +180,8 @@ save_to_synapse(
     output_filename = OUTPUT_REF$filename, 
     parent = OUTPUT_REF$parent,
     annotations = OUTPUT_REF$annotations,
-    name = OUTPUT_REF$name,
-    description = OUTPUT_REF$description,
+    activityName = OUTPUT_REF$name,
+    activityDescription = OUTPUT_REF$description,
     executed = OUTPUT_REF$git_url,
     used = OUTPUT_REF$used)
 

@@ -134,8 +134,8 @@ main <- function(){
             data = data,
             output_filename = output_filename, 
             parent = UDALL_PARENT_ID,
-            name = provenance_name,
-            description = provenance_description,
+            activityName = provenance_name,
+            activityDescription = provenance_description,
             annotations = activity_ref$annotations,
             used = c(table_id, feature_id),
             executed = GIT_URL)
