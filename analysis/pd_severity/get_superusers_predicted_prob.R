@@ -12,7 +12,7 @@ synLogin()
 load(synGet("syn15355694")$path)
 
 # demographics of superPD users
-demo_id <- "syn26840734"
+demo_id <- "syn61529703" # "syn26840734"
 
 # train-test mapping
 train_test_mapping <- list(

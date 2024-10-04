@@ -20,7 +20,7 @@ SYN_ID_REF <- list(
     table = config::get("table"),
     feature_extraction = get_feature_extraction_ids())
 SUPERUSERS_OUTPUT_REF <- config::get("superusers")
-UDALL_PARENT_ID <- "syn26142249"
+UDALL_PARENT_ID <- "syn26467774" # "syn26142249"
 SCRIPT_PATH <- file.path(
     "feature_processing", 
     "superusers",
