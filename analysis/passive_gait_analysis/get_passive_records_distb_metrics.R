@@ -30,21 +30,21 @@ GIT_URL = get_github_url(
     git_repo = config::get("git")$repo_endpoint,
     script_path = SCRIPT_PATH)
 
-PARENT_ID <- "syn26842601"
+PARENT_ID <- "syn61523556"
 OUTPUT_FILE <- "passive_gait_contributions_metrics.tsv"
-PASSIVE_TBL <- "syn17022539"
-TAP_TBL <- "syn15673381"
-WALK_TBL <- "syn12514611"
-TREMOR_TBL <- "syn12977322"
+PASSIVE_TBL <- "syn33706578"
+TAP_TBL <- "syn33706548"
+WALK_TBL <- "syn33706639"
+TREMOR_TBL <- "syn33706544"
 
 ####################################
 #### instantiate github #### 
 ####################################
-setGithubToken(readLines(GIT_TOKEN_PATH))
-GIT_URL <- githubr::getPermlink(
-    GIT_REPO, repositoryPath = SCRIPT_PATH,
-    ref = "branch",
-    refName = 'main')
+# setGithubToken(readLines(GIT_TOKEN_PATH))
+# GIT_URL <- githubr::getPermlink(
+#     GIT_REPO, repositoryPath = SCRIPT_PATH,
+#     ref = "branch",
+#     refName = 'main')
 
 passive <- synTableQuery(
     glue::glue("select * from {PASSIVE_TBL}"))$asDataFrame() %>% 

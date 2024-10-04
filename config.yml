@@ -1,16 +1,16 @@
 default:
     git:
-        repo_endpoint: "sage-bionetworks/mpower-feature-analysis-sage"
+        repo_endpoint: "sage-bionetworks/mpower-feature-analysis"
         token_path: "~/git_token.txt"
     cpu:
         n_cores: 64
 v2:
     table:
-        demo: "syn15673379"
-        tap: "syn15673381"
-        walk: "syn12514611"
-        tremor: "syn12977322"
-        passive: "syn17022539"
+        demo: "syn33706622"
+        tap: "syn33706548"
+        walk: "syn33706639"
+        tremor: "syn33706544"
+        passive: "syn33706578"
     feature_extraction:
         demo:
             - output_filename: "curated_demographics_v2.tsv"

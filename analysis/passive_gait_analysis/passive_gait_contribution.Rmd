@@ -15,7 +15,7 @@ synLogin()
 ```
 
 ```{r}
-METRICS_SYN_ID <- "syn24682745"
+METRICS_SYN_ID <- "syn61529728"
 ```
 
 ```{r echo = FALSE}

@@ -58,7 +58,7 @@ V1_table_mapping <- synTableQuery(
     dplyr::select(recordId, healthCode)
 
 V2_table_mapping <- synTableQuery(
-    "SELECT recordId, healthCode from syn15673381")$asDataFrame() %>%
+    "SELECT recordId, healthCode from syn33706548")$asDataFrame() %>%
     dplyr::select(recordId, healthCode)
 
 hc_mapping <- synGet(HC_MAPPING)$path %>% 
