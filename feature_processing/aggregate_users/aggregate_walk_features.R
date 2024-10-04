@@ -83,8 +83,11 @@ get_metadata <- function(tbl_id){
 
 main <- function(){
     refs <- config::get("feature_processing")$walk
-    annotations_map <- SYN_ID_REF$feature_extraction %>% 
-        get_annotation_mapper()
+    annotations_map <- 
+      SYN_ID_REF$feature_extraction[
+        SYN_ID_REF$feature_extraction %>% lengths() > 0
+      ] %>% 
+      get_annotation_mapper()
     metadata <- get_metadata(SYN_ID_REF$table)
     demo <- synGet(SYN_ID_REF$feature_extraction$demo)$path %>%
         fread(.) %>%
