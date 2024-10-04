@@ -95,9 +95,9 @@ get_table <- function(synapse_tbl,
                       query_params = NULL){
   # get table entity
   if(is.null(query_params)){
-    entity <- synTableQuery(glue::glue("SELECT * FROM {synapse_tbl}"))
+    entity <- synapser::synTableQuery(glue::glue("SELECT * FROM {synapse_tbl}"))
   }else{
-    entity <- synTableQuery(glue::glue("SELECT * FROM {synapse_tbl} {query_params}"))
+    entity <- synapser::synTableQuery(glue::glue("SELECT * FROM {synapse_tbl} {query_params}"))
   }
   
   # shape table
@@ -117,7 +117,7 @@ get_table <- function(synapse_tbl,
       dplyr::group_by(recordId, fileColumnName) %>% 
       dplyr::summarise_all(last) %>% 
       dplyr::ungroup()
-    result <- synDownloadTableColumns(
+    result <- synapser::synDownloadTableColumns(
       table = entity, 
       columns = file_columns) %>%
       tibble::enframe(.) %>%
@@ -170,7 +170,7 @@ save_to_synapse <- function(data,
   file <- File(output_filename, 
                parent =  parent,
                annotations = annotations)
-  synStore(file, ...)
+  synapser::synStore(file, ...)
   unlink(file$path)
 }
 
@@ -182,7 +182,7 @@ get_annotation_mapper <- function(refs){
   refs %>% 
     # purrr::list_modify("parent_id" = NULL) %>% 
     purrr::map_dfr(function(x){
-      entity <- synGet(x)
+      entity <- synapser::synGet(x)
       id <- entity$properties$id
       annotations <- synGetAnnotations(id) %>% 
         unlist(recursive = F)
