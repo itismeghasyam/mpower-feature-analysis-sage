@@ -8,15 +8,30 @@
 get_file_view_ref <- function(syn = NULL){
     template_path <- file.path("synapseformation/manuscript.yaml")
     if(is.null(syn)){
-        project_id <- synFindEntityId(
+        project_id <- synapser::synFindEntityId(
             yaml::read_yaml(template_path)[[1]]$name)
-        file_view_id <- synapser::synFindEntityId(
-            "mPower2.0 - File View", project_id)
+        file_view_exists <- 
+          !is.null(synapser::synFindEntityId("mPower2.0 - File View", project_id))
+        if (file_view_exists) {
+          file_view_id <- 
+            synapser::synFindEntityId("mPower2.0 - File View", project_id)
+        } else {
+          file_view_id <- 
+            synapser::synFindEntityId("mPower File View Directory", project_id)
+        }
+          
     }else{
         project_id <- syn$findEntityId(
             yaml::read_yaml(template_path)[[1]]$name)
-        file_view_id <- syn$findEntityId(
-            "mPower2.0 - File View", project_id)
+        file_view_exists <- 
+          !is.null(synapser::synFindEntityId("mPower2.0 - File View", project_id))
+        if (file_view_exists) {
+          file_view_id <- 
+            syn$findEntityId("mPower2.0 - File View", project_id)
+        } else {
+          file_view_id <- 
+            syn$findEntityId("mPower File View Directory", project_id)
+        }
     }
     return(file_view_id)
 }
@@ -24,7 +39,7 @@ get_file_view_ref <- function(syn = NULL){
 get_feature_extraction_ids <- function(syn = NULL){
     if(is.null(syn)){
         file_view_id <- get_file_view_ref()
-        data <- synTableQuery(
+        data <- synapser::synTableQuery(
             glue::glue("SELECT * FROM {file_view_id}", 
                        file_view_id = file_view_id))$asDataFrame() %>%
             tibble::as_tibble()

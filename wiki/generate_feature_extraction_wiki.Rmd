@@ -12,18 +12,26 @@ synapser::synLogin()
 
 ```{r include=FALSE}
 get_file_view_ref <- function(){
-    template_path <- file.path("../synapseformation/manuscript.yaml")
-    project_id <- synFindEntityId(
+    template_path <- file.path("synapseformation/manuscript.yaml")
+    project_id <- 
+      synapser::synFindEntityId(name = 
         yaml::read_yaml(template_path)[[1]]$name)
-    file_view_id <- synapser::synFindEntityId(
-        "mPower2.0 - File View", project_id)
+    file_view_exists <- 
+      !is.null(synapser::synFindEntityId("mPower2.0 - File View", project_id))
+    if (file_view_exists) {
+      file_view_id <- 
+        synapser::synFindEntityId("mPower2.0 - File View", project_id)
+    } else {
+      file_view_id <- 
+        synapser::synFindEntityId("mPower File View Directory", project_id)
+    }
     return(file_view_id)
 }
 
 get_feature_extraction_ids <- function(){
     file_view_id <- get_file_view_ref()
     ref_list <- list()
-    data <- synTableQuery(
+    data <- synapser::synTableQuery(
         glue::glue("SELECT * FROM {file_view_id}", 
                    file_view_id = file_view_id))$asDataFrame() %>%
         tibble::as_tibble()
@@ -59,13 +67,13 @@ knitr::kable(data, "pipe")
 ### Pipeline Tracking
 ```{r, echo=FALSE}
 data <- synapser::synGetChildren(
-    FOLDER_ID)$asList() %>%
+    FOLDER_ID, includeTypes = list("file"))$asList() %>%
     purrr::map_dfr(function(x){
         tryCatch({
             id <- x$id
             name <- x$name
             provenance <- synGetProvenance(id)
-            description <- provenance$get("description")
+            description <- provenance$get("description") # TODO: debug this line/part
             tibble::tibble(
                 "id" = id,
                 "file_name" = name,
