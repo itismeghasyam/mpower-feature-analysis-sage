@@ -1,4 +1,4 @@
-- name: mPower2.0 Project - Dev
+- name: UMN Udall mPower sharing project
   type: Project
   acl:
   - principal_id: 3454207 # Pranav Anbarasu
