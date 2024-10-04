@@ -16,17 +16,20 @@ library(optparse)
 source("utils/curation_utils.R")
 source("utils/helper_utils.R")
 source("utils/fetch_id_utils.R")
+library(synapser)
 
 #' Get Synapse Creds
-synapseclient <- reticulate::import("synapseclient")
-syn <- synapseclient$login()
-syn$table_query_timeout <- 9999999
+# synapseclient <- reticulate::import("synapseclient")
+# syn <- synapseclient$login()
+# syn$table_query_timeout <- 9999999
+
+synapser::synLogin()
 
 #' Global Variables
 N_CORES <- config::get("cpu")$n_cores
 SYN_ID_REF <- list(
     table = config::get("table")$tap,
-    feature_extraction = get_feature_extraction_ids(syn = syn))
+    feature_extraction = get_feature_extraction_ids(syn = NULL))
 PARENT_ID <- SYN_ID_REF$feature_extraction$parent_id
 TAP_TABLE <- SYN_ID_REF$table
 SCRIPT_PATH <- file.path(
@@ -164,18 +167,22 @@ main <-  function(){
     refs <- config::get("feature_extraction")$tap
     purrr::map(refs, function(ref){
         ts_cutoff <<- ref$params$ts_cutoff
-        tbl <- reticulated_get_table(
-            syn, 
-            tbl_id = SYN_ID_REF$table,
+        # tbl <- reticulated_get_table(
+        tbl <- get_table(
+            # syn, 
+            # tbl_id = SYN_ID_REF$table,
+            synapse_tbl = SYN_ID_REF$table,
             file_columns = ref$columns,
             query_params = ref$params$query_condition)
         features <- tbl %>%
             extract_tapping_features(parallel = T) %>%
-            reticulated_save_to_synapse(
-                syn, synapseclient, 
-                data = ., 
+            # reticulated_save_to_synapse(
+            save_to_synapse(
+                # syn, synapseclient, 
+                # data = ., 
                 output_filename = ref$output_filename,
-                parent_id = PARENT_ID,
+                # parent_id = PARENT_ID,
+                parent = PARENT_ID,
                 annotations = ref$annotations,
                 used = TAP_TABLE,
                 activityName = ref$provenance$name,

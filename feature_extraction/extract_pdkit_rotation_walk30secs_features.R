@@ -21,13 +21,16 @@ synapseclient <- reticulate::import("synapseclient")
 syn <- synapseclient$login()
 syn$table_query_timeout <- 9999999
 pdkit_rotation_features <- reticulate::import("PDKitRotationFeatures")
+# pdkit_rotation_features <- reticulate::import_from_path("PDKitRotationFeatures", path = "/home/rstudio/.virtualenvs/mpower/lib/python3.8/site-packages/")
+
+synapser::synLogin()
 
 #' Global Variables
 MPOWER_VERSION <- Sys.getenv("R_CONFIG_ACTIVE")
 N_CORES <- config::get("cpu")$n_cores
 SYN_ID_REF <- list(
     table = config::get("table")$walk,
-    feature_extraction = get_feature_extraction_ids(syn = syn))
+    feature_extraction = get_feature_extraction_ids(syn = NULL))
 PARENT_ID <- SYN_ID_REF$feature_extraction$parent_id
 WALK_TABLE <- SYN_ID_REF$table
 SCRIPT_PATH <- file.path(
@@ -163,9 +166,11 @@ main <- function(){
     purrr::map(refs, function(ref){
         window_size <- as.integer(ref$params$window_size)
         gait_feature_objs <<- pdkit_rotation_features$gait_module$GaitFeatures(sensor_window_size = window_size)
-        data <- reticulated_get_table(
-            syn, 
-            tbl_id = SYN_ID_REF$table,
+        # data <- reticulated_get_table(
+        data <- get_table(
+            # syn, 
+            # tbl_id = SYN_ID_REF$table,
+            synapse_tbl = SYN_ID_REF$table,
             file_columns = ref$columns,
             query_params = ref$params$query_condition)
         if(MPOWER_VERSION == "v2"){
@@ -196,11 +201,13 @@ main <- function(){
             dplyr::rowwise() %>% 
             dplyr::mutate(window = stringr::str_extract(window, '[0-9]+')) %>%
             dplyr::ungroup() %>%
-            reticulated_save_to_synapse(
-                syn, synapseclient, 
-                data = ., 
+            # reticulated_save_to_synapse(
+            save_to_synapse(
+                # syn, synapseclient, 
+                # data = ., 
                 output_filename = ref$output_filename,
-                parent_id = PARENT_ID,
+                # parent_id = PARENT_ID,
+                parent = PARENT_ID,
                 annotations = ref$annotations,
                 used = WALK_TABLE,
                 activityName = ref$provenance$name,
