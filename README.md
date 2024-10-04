@@ -12,7 +12,10 @@ Here are our current supported tools in this ETL Github repository:
 - [Mhealthtools](https://github.com/Sage-Bionetworks/mhealthtools/blob/master/R/get_tapping_features.R)
 - [PDKit](https://github.com/pdkit/pdkit)
 
-## Running in Docker (Recommended):
+## Manually running (recommended if you need to run step-by-step and/or debug):
+Manually run each script in the [Makefile](Makefile) in the specified order. The Docker usage instructions below do work, but running the pipeline using the docker method makes it harder to debug, run step-by-step, and analyze outputs/processes at each step.
+
+## Running in Docker (not recommended if you need to debug):
 Docker image is designed to build R & Python Environment and deployed in a container. Environment in R uses `renv` and Python `virtualenv` package management.  
 
 ### 1. Clone the repository: 
