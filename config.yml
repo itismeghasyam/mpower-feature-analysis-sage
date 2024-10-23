@@ -1,6 +1,6 @@
 default:
     git:
-        repo_endpoint: "sage-bionetworks/mpower-feature-analysis"
+        repo_endpoint: "itismeghasyam/mpower-feature-analysis-sage"
         token_path: "~/git_token.txt"
     cpu:
         n_cores: 64
