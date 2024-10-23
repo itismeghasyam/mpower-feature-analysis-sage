@@ -17,7 +17,7 @@ RUN git clone -b update-input-params-to-umn-udall --single-branch https://github
 WORKDIR mpower-feature-analysis
 
 ## Pull any updates
-RUN git pull
+# RUN git pull
 
 ## Python dependencies
 RUN python3 -m venv ~/env && \
