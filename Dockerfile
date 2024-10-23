@@ -11,7 +11,7 @@ RUN python3 -m pip install --upgrade pip && \
     python3 -m pip install virtualenv wheel
 
 ## run git cloning
-RUN git clone https://github.com/sage-bionetworks/mpower-feature-analysis
+RUN git clone -b update-input-params-to-umn-udall --single-branch https://github.com/itismeghasyam/mpower-feature-analysis-sage
 
 ## change work dir
 WORKDIR mpower-feature-analysis
