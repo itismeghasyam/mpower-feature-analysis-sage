@@ -1042,13 +1042,13 @@
     },
     "getopt": {
       "Package": "getopt",
-      "Version": "1.20.4",
+      "Version": "1.20.3",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
         "stats"
       ],
-      "Hash": "ed33b16c6d24f7ced1d68877ac2509ee"
+      "Hash": "ad68e3263f0bc9269aab8c2039440117"
     },
     "ggplot2": {
       "Package": "ggplot2",
@@ -3008,7 +3008,7 @@
     },
     "zoo": {
       "Package": "zoo",
-      "Version": "1.8-12",
+      "Version": "1.8-9",
       "Source": "Repository",
       "Repository": "RSPM",
       "Requirements": [
@@ -3019,7 +3019,7 @@
         "stats",
         "utils"
       ],
-      "Hash": "5c715954112b45499fb1dadc6ee6ee3e"
+      "Hash": "035d1c7c12593038c26fb1c2fd40c4d2"
     }
   }
 }
