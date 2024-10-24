@@ -9,7 +9,7 @@ library(synapser)
 source("utils/curation_utils.R")
 
 
-synaper::synLogin()
+synapser::synLogin()
 FEATURES <- list(
     v1 = "syn26344790",
     v2 = "syn26344786"
